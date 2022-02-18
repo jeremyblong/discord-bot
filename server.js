@@ -12,26 +12,26 @@ const aws = require('aws-sdk');
 const { Connection } = require("./mongoUtil.js");
 const flash = require('connect-flash');
 const session = require('express-session');
-const { Client, MessageEmbed } = require('discord.js');
+const { MessageEmbed, Intents } = require('discord.js');
 const { botIntents, commands, prefix } = require('./config/config.js');
 const { getLastMsgs } = require("./botActionHelpers/msgRelated/getLastMessages.js");
 const { startBot } = require("./botActionHelpers/startBot/initializeBot.js");
 const path = require("path");
+const { client } = require("./utils/discordAPI.js");
 
 const PORT = process.env.PORT || 50451;
 
 
-
-const client = new Client({
-    intents: botIntents,
-    partials: ['CHANNEL', 'MESSAGE'],
-});
 
 client.on('ready', () => {
     console.log('Logged in as ' + client.user.tag);
 });
 
 startBot(client);
+
+client.on('guildMemberAdd', member => {
+  console.log("member", member);
+});
 
 client.on('messageCreate', async (msg) => {
     if (msg.author.bot) return;
@@ -78,17 +78,10 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 
-const whitelist = config.get("WHITELISTED_DOMAINS") ? config.get("WHITELISTED_DOMAINS").split(",") : [];
-
 const corsOptions = {
-	origin: function (origin, callback) {
-	  if (!origin || whitelist.indexOf(origin) !== -1) {
-		callback(null, true)
-	  } else {
-		callback(new Error("Not allowed by CORS"))
-	  }
-	},
+	origin: "*",
 	credentials: true,
+  optionSuccessStatus: 200
 };
 
 app.use(flash());
@@ -117,18 +110,33 @@ app.use(helmet());
 app.use(mongoSanitize());
 app.use(limiter);
 
-app.use(express.static(__dirname + "/dist"));
+app.use(cors({ origin: 'http://localhost:50451' }));
+
+app.use((req, res, next) => {
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	res.setHeader("Access-Control-Allow-Credentials", true);
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+	next();
+});
+
+app.use("/api/discord/login", require("./routes/discordRelated/auth/init/mainDiscord.js"));
+app.use("/api/discord/callback", require("./routes/discordRelated/auth/callback/callback.js"));
+app.use("/get/user/info/save", require("./routes/authentication/register/registerNewUserDB.js"));
+app.use("/add/new/user/group", require("./routes/discordRelated/addUserGroup/addNewUser/newUser.js"));
+
+app.use(express.static("dist"));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/dist/public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/dist/public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
 });
 
 app.get('*', cors(), (_, res) => {
-	res.sendFile(__dirname, 'client/dist/public/index.html'), (err) => {
+	res.sendFile(__dirname, 'client/dist/index.html'), (err) => {
 	  if (err) {
 		res.status(500).send(err)
 	  };
@@ -136,24 +144,17 @@ app.get('*', cors(), (_, res) => {
 });
     
 app.get('/*', cors(), (_, res) => {
-	res.sendFile(__dirname, 'client/dist/public/index.html'), (err) => {
+	res.sendFile(__dirname, 'client/dist/index.html'), (err) => {
 		if (err) {
 		res.status(500).send(err)
 		};
 	};
 });
 
-app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", req.headers.origin);
-	res.header("Access-Control-Allow-Credentials", true);
-	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-	res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-	next();
-});
-
 Connection.open();
 
 client.login(config.get("discordToken"));
+
 
 app.listen(PORT, () => {
 	console.log(`app listening on port ${PORT}!`);

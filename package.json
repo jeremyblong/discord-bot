@@ -11,7 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1074.0",
+    "axios": "^0.26.0",
     "body-parser": "^1.19.1",
+    "btoa": "^1.2.1",
     "concurrently": "^7.0.0",
     "config": "^3.3.7",
     "connect-flash": "^0.1.1",
@@ -23,9 +25,11 @@
     "express-session": "^1.17.2",
     "helmet": "^5.0.2",
     "mongoose": "^6.2.1",
+    "node-fetch": "^2.6.7",
     "nodemon": "^2.0.15",
     "passport": "^0.5.2",
     "passport-discord": "^0.1.4",
+    "url": "^0.10.3",
     "xss-clean": "^0.1.1"
   }
 }

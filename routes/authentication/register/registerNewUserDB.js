@@ -2,29 +2,19 @@ const express = require("express");
 const router = express.Router();
 const User = require("../../../schemas/auth/register/registerNewUserSchema.js");
 const { v4: uuidv4 } = require('uuid');
-const moment = require("moment");
 const { Connection } = require("../../../mongoUtil.js");
-const fetch = require("node-fetch");
 
 router.get("/", async (req, res) => {
 
     const { 
-        token
+        user
     } = req.query;
 
-    const userResult = await fetch('https://discord.com/api/users/@me', {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
+    console.log("user?", user);
 
     const collection = Connection.db.db("myFirstDatabase").collection("users");
 
-    const result = await userResult.json();
-
-    console.log("result FIRST...:", result);
-
-    const { id, username, descriminator, avatar, bot, banner, locale, verified, email, mfa_enabled } = result;
+    const { id, username, descriminator, avatar, bot, banner, locale, verified, email, mfa_enabled, system, discriminator, defaultAvatarURL, avatarURL } = JSON.parse(user);
 
     const newUser = new User({
       id, 
@@ -36,6 +26,10 @@ router.get("/", async (req, res) => {
       banner, 
       locale, 
       verified, 
+      system,
+      defaultAvatarURL,
+      avatarURL,
+      discriminator,
       email,
       mfa_enabled
     });

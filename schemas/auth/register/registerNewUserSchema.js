@@ -15,6 +15,18 @@ const UserSchema =  new Schema({
     avatar: {
         type: String
     },
+    defaultAvatarURL: {
+        type: String
+    },
+    avatarURL: {
+        type: String
+    },
+    system: {
+        type: Boolean
+    },
+    discriminator: {
+        type: Number
+    },
     bot: {
         type: Boolean
     },

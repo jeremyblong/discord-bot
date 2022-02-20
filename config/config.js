@@ -13,6 +13,7 @@ const commands = {
     lastMsgs: "last-messages",
     scrub: "scrub",
     rest: "rest",
+    invite: "invite",
     sleep: "sleep",
     steal: "steal",
     bones: "bones",

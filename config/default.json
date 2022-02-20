@@ -4,6 +4,7 @@
     "awsRegion": "",
     "mongoURI": "mongodb+srv://thatlaughdoeeee:thatlaughdoeeee@db.xcziw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
     "COOKIE_SECRET": "",
+    "baseURLServer": "http://localhost:50451",
     "WHITELISTED_DOMAINS": "http://localhost:3000",
     "discordToken": "OTQzMTkwMjkxNzQ0MTc4MjQ4.YgvcaQ.rIDs4rsbSBZ2fBM00CsYNQzpfcU",
     "discordClientSecret": "-_2Xl1n4P9cT0Z6ldfW4l6F1MsHj__zh",

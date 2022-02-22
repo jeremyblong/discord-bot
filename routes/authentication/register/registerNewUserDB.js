@@ -10,9 +10,9 @@ router.get("/", async (req, res) => {
         user
     } = req.query;
 
-    console.log("user?", user);
+    console.log("user data custom route --- : ", user);
 
-    const collection = Connection.db.db("myFirstDatabase").collection("users");
+    const collection = Connection.db.db("myFirstDatabase").collection("admins");
 
     const { id, username, descriminator, avatar, bot, banner, locale, verified, email, mfa_enabled, system, discriminator, defaultAvatarURL, avatarURL } = JSON.parse(user);
 
@@ -31,7 +31,8 @@ router.get("/", async (req, res) => {
       avatarURL,
       discriminator,
       email,
-      mfa_enabled
+      mfa_enabled,
+      coins: 0
     });
     
     const alreadySavedOrNot = await collection.findOne({ id: id });

@@ -3,6 +3,7 @@ const { Intents } = require('discord.js');
 const {
     DIRECT_MESSAGES,
     GUILD_MESSAGES,
+    GUILD_MEMBERS,
     GUILDS
 } = Intents.FLAGS;
 
@@ -13,7 +14,6 @@ const commands = {
     lastMsgs: "last-messages",
     scrub: "scrub",
     rest: "rest",
-    invite: "invite",
     sleep: "sleep",
     steal: "steal",
     bones: "bones",
@@ -33,7 +33,8 @@ const prefix = '.';
 const botIntents = [
     DIRECT_MESSAGES,
     GUILD_MESSAGES,
-    GUILDS
+    GUILDS,
+    GUILD_MEMBERS
 ];
 
 module.exports = { botIntents, commands, prefix };

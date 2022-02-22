@@ -1,10 +1,6 @@
 const express = require('express');
-const config = require("config");
-const fetch = require('node-fetch');
 const router = express.Router();
-const axios = require("axios");
-const { client } = require("../../../../utils/discordAPI.js");
-const Discord = require("discord.js");
+const { client } = require("../../../../utils/client.js");
 const { User, Guild } = require("discord.js");
 const { Connection } = require("../../../../mongoUtil.js");
 

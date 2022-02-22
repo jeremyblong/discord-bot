@@ -47,7 +47,10 @@ const UserSchema =  new Schema({
     },
     mfa_enabled: {
         type: Boolean
+    },
+    coins: {
+        type: Number
     }
 });
 
-module.exports = User = mongoose.model("user", UserSchema);
+module.exports = User = mongoose.model("admin", UserSchema);

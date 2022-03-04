@@ -18,6 +18,12 @@ const UserSchema =  new Schema({
     flags: {
         type: Object
     },
+    joined: {
+        type: String
+    },
+    remainingDuelRefusalsLeft: {
+        type: Array
+    },
     username: {
         type: String
     },
@@ -32,6 +38,15 @@ const UserSchema =  new Schema({
     },
     accentColor: {
         type: String
+    },
+    coins: {
+        type: Number
+    },
+    resting: {
+        type: Boolean
+    },
+    frozen: {
+        type: Boolean
     }
 });
 

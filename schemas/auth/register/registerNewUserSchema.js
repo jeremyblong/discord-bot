@@ -50,6 +50,12 @@ const UserSchema =  new Schema({
     },
     coins: {
         type: Number
+    },
+    resting: {
+        type: Boolean
+    },
+    frozen: {
+        type: Boolean
     }
 });
 

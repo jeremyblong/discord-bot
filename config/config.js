@@ -20,10 +20,10 @@ const commands = {
     poker: "poker",
     snipe: "snipe", // @player
     aim: "aim",
-    duel: "duel",
-    plank: "plank", // @player
+    duel: "duel-player", // @player
+    plank: "plank-player", // @player - STILL NEED TO DO!!
     loot: "loot",
-    // loot: "loot", // @player
+    lootPlayer: "loot-player", // @player
     stealth: "stealth",
     rank: "rank",
     commands: "commands"

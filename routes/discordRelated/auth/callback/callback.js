@@ -2,14 +2,14 @@ const express = require('express');
 const config = require("config");
 const fetch = require('node-fetch');
 const router = express.Router();
-const { catchAsync } = require("../../../../utils/general.js");
+const { catchAsyncErrors } = require("../../../../utils/general.js");
 const { URLSearchParams } = require('url');
 
 
 const redirect = 'http://localhost:50451/api/discord/callback';
 
 
-router.get('/', catchAsync(async (req, res) => {
+router.get('/', catchAsyncErrors(async (req, res) => {
     if (!req.query.code) throw new Error('NoCodeProvided');
     const code = req.query.code;
 

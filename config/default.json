@@ -13,5 +13,6 @@
     "REFRESH_TOKEN_EXPIRY": 2592000,
     "SESSION_EXPIRY": 900,
     "cryptoSecret": "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3",
-    "cryptoAlg": "aes-256-ctr"
+    "cryptoAlg": "aes-256-ctr",
+    "awsCloudStorageAssetStartURL": "https://discord-bot-client.s3.amazonaws.com"
 }

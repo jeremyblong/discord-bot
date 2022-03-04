@@ -13,17 +13,15 @@ const { Connection } = require("./mongoUtil.js");
 const flash = require('connect-flash');
 const session = require('express-session');
 const { startBot } = require("./botActionHelpers/startBot/initializeBot.js");
-const path = require("path");
 const { client } = require("./utils/client.js");
-const registerClient = require("./utils/actions.js");
-
+const { registerClient } = require("./utils/actions.js");
+const { intervalHelper, cronJobs } = require("./utils/general.js");
+// setup port logic
 const PORT = process.env.PORT || 50451;
 
 // discord bot permission === 8
 
 startBot(client);
-
-registerClient(client);
 
 aws.config.update({
     secretAccessKey: config.get("awsSecretKey"),
@@ -86,38 +84,23 @@ app.use("/api/discord/callback", require("./routes/discordRelated/auth/callback/
 app.use("/get/user/info/save", require("./routes/authentication/register/registerNewUserDB.js"));
 app.use("/add/new/user/group", require("./routes/discordRelated/addUserGroup/addNewUser/newUser.js"));
 app.use("/save/newly/joined/member/appropriate/guild", require("./routes/discordRelated/guildLogic/saveMemberToGuild/newMember/addNewMemberToGuildDB.js"));
-
-app.use(express.static("dist"));
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
-});
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
-});
-
-app.get('*', cors(), (_, res) => {
-	res.sendFile(__dirname, 'client/dist/index.html'), (err) => {
-	  if (err) {
-		res.status(500).send(err)
-	  };
-	};
-});
-    
-app.get('/*', cors(), (_, res) => {
-	res.sendFile(__dirname, 'client/dist/index.html'), (err) => {
-		if (err) {
-		res.status(500).send(err)
-		};
-	};
-});
+app.use("/scrub/command", require("./routes/discordRelated/commandActions/scrub/scrubUser.js"));
+app.use("/rest/command", require("./routes/discordRelated/commandActions/rest/restUser.js"));
+app.use("/check/account/frozen/all", require("./routes/discordRelated/periodicUpdateChecksCronjob/checkFrozenOrNot/checkFrozenOrResting.js"));
+app.use("/sleep/command", require("./routes/discordRelated/commandActions/sleep/sleepUser.js"));
+app.use("/steal/random/users/command", require("./routes/discordRelated/commandActions/steal/stealCoinsRandomUsers.js"));
+app.use("/bones/command", require("./routes/discordRelated/commandActions/bones/bones.js"));
+app.use("/poker/command", require("./routes/discordRelated/commandActions/poker/pokerUserCommand.js"));
+app.use("/snipe/player/command", require("./routes/discordRelated/commandActions/snipe/snipePlayer.js"));
+app.use("/loot/coins/command", require("./routes/discordRelated/commandActions/loot/lootShowCoins.js"));
+app.use("/loot/player/coins/command", require("./routes/discordRelated/commandActions/loot-player/lootPlayerCoins.js"));
+app.use("/plank/player/command", require("./routes/discordRelated/commandActions/plank-player/plankUser.js"));
+app.use("/duel/player/command", require("./routes/discordRelated/commandActions/duel/duelUser.js"));
 
 Connection.open();
 
-client.login(config.get("discordToken"));
-
+registerClient(client);
 
 app.listen(PORT, () => {
 	console.log(`app listening on port ${PORT}!`);
-});
+}, intervalHelper);

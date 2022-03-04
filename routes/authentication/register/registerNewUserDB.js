@@ -32,7 +32,9 @@ router.get("/", async (req, res) => {
       discriminator,
       email,
       mfa_enabled,
-      coins: 0
+      coins: 0,
+      resting: false,
+      frozen: false
     });
     
     const alreadySavedOrNot = await collection.findOne({ id: id });

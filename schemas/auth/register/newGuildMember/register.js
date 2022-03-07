@@ -21,6 +21,9 @@ const UserSchema =  new Schema({
     joined: {
         type: String
     },
+    duelRefusalsLeft: {
+        type: Number
+    },
     remainingDuelRefusalsLeft: {
         type: Array
     },

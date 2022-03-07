@@ -96,6 +96,8 @@ app.use("/loot/coins/command", require("./routes/discordRelated/commandActions/l
 app.use("/loot/player/coins/command", require("./routes/discordRelated/commandActions/loot-player/lootPlayerCoins.js"));
 app.use("/plank/player/command", require("./routes/discordRelated/commandActions/plank-player/plankUser.js"));
 app.use("/duel/player/command", require("./routes/discordRelated/commandActions/duel/duelUser.js"));
+app.use("/random", require("./routes/random.js"));
+// app.use("/webhook", require("./webhookStripe.js"));
 
 Connection.open();
 

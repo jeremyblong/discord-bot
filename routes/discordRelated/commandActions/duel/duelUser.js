@@ -42,13 +42,40 @@ router.post('/', async (req, res) => {
                 hoursTillNextUse: 48
             };
 
+            const newRequestedDuel = {
+                requestedBy: authorUser.id,
+                id: uuidv4(),
+                date: new Date(),
+                expires: moment(new Date()).isAfter(moment(new Date).add(168, "hours")),
+                dueledUser: dueledUser.id
+            }
+
             const generatedBetween = Math.floor(Math.random() * (2 - 1 + 1) + 1);
             // check if user has refusals left
-            if (_.has(dueledUser, "remainingDuelRefusalsLeft") && dueledUser.remainingDuelRefusalsLeft.length > 0) {
-                res.json({
-                    message: "Send request to DM to duel..",
-                    user: authorUser,
-                    duelUserID: dueledUser.id
+            if (_.has(dueledUser, "duelRefusalsLeft") && dueledUser.duelRefusalsLeft > 0) {
+
+                if (_.has(dueledUser, "requestedDuels")) {
+                    dueledUser.requestedDuels.push(newRequestedDuel);
+                } else {
+                    dueledUser["requestedDuels"] = [newRequestedDuel];
+                }
+                collection.save(dueledUser, (err, result) => {
+                    if (err) {
+                        console.log("error occurred while saving..:", err);
+
+                        res.json({
+                            message: "Error occurred while attempting to save appropriate data..",
+                            err
+                        })
+                    } else {
+                        console.log("successfully saved and updated!");
+
+                        res.json({
+                            message: "Send request to DM to duel..",
+                            user: authorUser,
+                            duelUserID: dueledUser.id
+                        })
+                    }
                 })
             } else {
                 if (_.has(authorUser, "duelActionData")) {
@@ -221,3 +248,4 @@ module.exports = router;
 // "We have a WINNER!"
 // "Error occurred while attempting to save appropriate data.."
 // "You cannot use this action quite yet, hasn't been enough time!"
+// "Send request to DM to duel.."

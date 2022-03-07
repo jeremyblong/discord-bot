@@ -20,35 +20,7 @@ router.get('/', async (req, res) => {
 
     const parsed = JSON.parse(user);
 
-    const newToSaveObject = {...parsed, guildID, coins: 0, resting: false, frozen: false, username: parsed.username.toLowerCase(), remainingDuelRefusalsLeft: [
-        {
-            id: uuidv4(),
-            pending: true,
-            accepted: false,
-            userID: parsed.id,
-            creationDate: new Date(),
-            lastModified: null,
-            actionTaken: false
-        },
-        {
-            id: uuidv4(),
-            pending: true,
-            accepted: false,
-            userID: parsed.id,
-            creationDate: new Date(),
-            lastModified: null,
-            actionTaken: false
-        },
-        {
-            id: uuidv4(),
-            pending: true,
-            accepted: false,
-            userID: parsed.id,
-            creationDate: new Date(),
-            lastModified: null,
-            actionTaken: false
-        }
-    ], joined: moment(new Date()).format("MM/DD/YYYY hh:mm:ss a") };
+    const newToSaveObject = {...parsed, guildID, coins: 0, resting: false, frozen: false, username: parsed.username.toLowerCase(), duelRefusalsLeft: 3, joined: moment(new Date()).format("MM/DD/YYYY hh:mm:ss a") };
 
     const newSave = new dynamicSchemaSaveNewGuildUserSchema(newToSaveObject);
 

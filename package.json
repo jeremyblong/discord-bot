@@ -33,6 +33,7 @@
     "nodemon": "^2.0.15",
     "passport": "^0.5.2",
     "passport-discord": "^0.1.4",
+    "stripe": "^8.207.0",
     "url": "^0.10.3",
     "xss-clean": "^0.1.1"
   }

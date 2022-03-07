@@ -56,6 +56,13 @@ const registerClient = () => {
               guildID
           }
         };
+        const server = client.guilds.cache.get(guildID);
+
+        // const role = server.guild.roles.cache.find(r => {
+        //   if (r.id === guildID) {
+        //     return r;
+        //   }
+        // });
 
         const dbConfig = config.get('baseURLServer');
       
@@ -66,7 +73,7 @@ const registerClient = () => {
 
               const { result } = res.data;
 
-              return result;
+              // member.roles.add(role);
               
               // return guildChannel.send(`Welcome to the chat - ${result.username}! Everyone, say hello to our new guest...`);
             } else {
@@ -117,7 +124,6 @@ const registerClient = () => {
       
       switch (userCmd) {
           case commands.getName:
-            return msg.reply(msg.author.username);
             break;
           case commands.tellJoke:
             const jokeResponse = new MessageEmbed().setColor('#E00C49').setTitle(`I'm bout' to tell a joke, you ready?`).setDescription('HTML is a scripting language && this is all you need to succeed in life. #lowCode #NoCode').setFooter('Thanks for interacting with our custom discord chat bot!');

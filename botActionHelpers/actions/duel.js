@@ -2,6 +2,14 @@ const axios = require("axios");
 const config = require("config");
 const { MessageEmbed } = require('discord.js');
 
+// "Send request to DM to duel..
+// "You do NOT have enough coins!"
+// "Selected user to duel with doesn't have enough coins!"
+// "We have a WINNER!"
+// "Error occurred while attempting to save appropriate data.."
+// "You cannot use this action quite yet, hasn't been enough time!"
+// "Send request to DM to duel.."
+
 const duelPlayerCommand = async (authorID, guildID, channel, attackingUsername, authorUsername, client) => {
     console.log("duelPlayerCommand ran...");
 

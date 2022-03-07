@@ -37,7 +37,7 @@ router.get('/', catchAsyncErrors(async (req, res) => {
 
     const encodedToken = encodeURIComponent(json.access_token);
 
-    await res.redirect(`http://localhost:8080/callback/discord/${encodedToken}`);
+    await res.redirect(`http://localhost:50451/callback/discord/${encodedToken}`);
 }));
 
 
